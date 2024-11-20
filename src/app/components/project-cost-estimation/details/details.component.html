@@ -1,0 +1,226 @@
+<dialog #removeFeatureDialog>
+  <h2>Remove feature</h2>
+  <p><small>Do you desire to remove this feature from your project?</small></p>
+  <p>{{ featureToRemove() }}</p>
+  <div class="d-flex-row d-flex-gap-1">
+    <button (click)="onRemoveFeature(featureIdToRemove(), featureIndex())">
+      <app-svg-icon [path]="'assets/trash.svg'"></app-svg-icon>
+      <span>Remove</span>
+    </button>
+    <button (click)="onClose()">
+      <app-svg-icon [path]="'assets/close.svg'"></app-svg-icon>
+      <span>Close</span>
+    </button>
+  </div>
+</dialog>
+
+@if (store.isLoading()) {
+  <p>Loading ...</p>
+}
+
+<div>
+  <p>Enter the details of the company and the project.</p>
+  <form [formGroup]="projectForm" class="details-form-main">
+    <fieldset>
+      <div>
+        <label>Company</label>
+        <input
+          type="text"
+          formControlName="company"
+          dthmSelectText
+          maxlength="40"
+        />
+        @if (
+          projectForm.controls["company"].invalid &&
+          projectForm.controls["company"].touched
+        ) {
+          <p class="error">Verify company</p>
+        }
+      </div>
+      <div>
+        <label>Project Name</label>
+        <input
+          type="text"
+          formControlName="projectName"
+          dthmSelectText
+          maxlength="40"
+        />
+        @if (
+          projectForm.controls["projectName"].invalid &&
+          projectForm.controls["projectName"].touched
+        ) {
+          <p class="error">Verify project name</p>
+        }
+      </div>
+      <div>
+        <label>Description</label>
+        <textarea formControlName="description" dthmSelectText></textarea>
+        @if (
+          projectForm.controls["description"].invalid &&
+          projectForm.controls["description"].touched
+        ) {
+          <p class="error">Verify description</p>
+        }
+      </div>
+      <div>
+        <label>Price per hour</label>
+        <input
+          type="text"
+          formControlName="priceByHour"
+          dthmRegexMask="Money2D"
+          dthmSelectText
+        />
+        @if (
+          projectForm.controls["priceByHour"].invalid &&
+          projectForm.controls["priceByHour"].touched
+        ) {
+          <p class="error">Verify price by hour</p>
+        }
+      </div>
+      <div>
+        <label>Tax</label>
+        <input
+          type="text"
+          formControlName="igvPercent"
+          dthmRegexMask="Money2D"
+          dthmSelectText
+        />
+        @if (
+          projectForm.controls["igvPercent"].invalid &&
+          projectForm.controls["igvPercent"].touched
+        ) {
+          <p class="error">Verify igv percent</p>
+        }
+      </div>
+    </fieldset>
+  </form>
+
+  <form [formGroup]="featuresForm">
+    <fieldset>
+      <div class="d-flex-row d-flex-aligns-items-center d-flex-gap-1 mb-2">
+        <h3 class="m0">Features</h3>
+
+        <button type="button" (click)="addEmptyFeature()">
+          <app-svg-icon [path]="'assets/add-empty-project.svg'"></app-svg-icon>
+          <span>Add Empty Feature</span>
+        </button>
+      </div>
+
+      <ng-container formArrayName="modules">
+        <ul
+          cdkDropList
+          role="list"
+          class="module-list example-list d-flex-column d-flex-gap-1"
+          (cdkDropListDropped)="drop($event)"
+        >
+          @for (
+            feature of featureList.controls;
+            track feature;
+            let i = $index
+          ) {
+            <li [formGroupName]="i" cdkDrag class="m1">
+              @if (feature.controls.editMode?.value) {
+                <div class="d-flex-column d-flex-gap-1">
+                  <div>
+                    <button
+                      type="button"
+                      [disabled]="!onCheckIfFeatureIsValid(i)"
+                      (click)="onChangeEditModule(i, false)"
+                      class="icon"
+                      title="Close edit"
+                    >
+                      <app-svg-icon [path]="'assets/close.svg'"></app-svg-icon>
+                    </button>
+                  </div>
+
+                  <div class="d-flex-column">
+                    <label class="m0">Description</label>
+                    <input
+                      type="text"
+                      formControlName="description"
+                      dthmSelectText
+                    />
+                    @if (feature.controls["description"].invalid) {
+                      <p>Description is invalid</p>
+                    }
+                  </div>
+                  <div class="d-flex-column">
+                    <label class="m0">Large Description</label>
+                    <textarea
+                      formControlName="largeDescription"
+                      dthmSelectText
+                    ></textarea>
+                    @if (feature.controls["largeDescription"].invalid) {
+                      <p>Large Description is invalid</p>
+                    }
+                  </div>
+                  <div class="d-flex-column">
+                    <label class="m0">Time in hours</label>
+                    <input
+                      type="text"
+                      formControlName="hours"
+                      dthmRegexMask="Money2D"
+                      dthmSelectText
+                    />
+                    @if (feature.controls["hours"].invalid) {
+                      <p>Hours is invalid</p>
+                    }
+                  </div>
+                </div>
+              } @else {
+                <div class="d-flex-column">
+                  <div
+                    class="d-flex-row d-flex-gap-1 d-flex-aligns-items-center"
+                  >
+                    <label class="m0"><small>Add to Project</small> </label>
+                    <input
+                      type="checkbox"
+                      formControlName="selected"
+                      title="Add feature to the Project"
+                      (change)="onAddRemoveFeatureProject(i)"
+                    />
+                    <button
+                      type="button"
+                      (click)="onChangeEditModule(i, true)"
+                      title="Edit"
+                      class="icon"
+                    >
+                      <app-svg-icon [path]="'assets/edit.svg'"></app-svg-icon>
+                    </button>
+                    @if (feature.controls.canRemove.value) {
+                      <button
+                        type="button"
+                        (click)="
+                          onShowDialogToRemoveFeature({
+                            index: i,
+                            id: feature.controls.id.value,
+                            description: feature.controls.description.value,
+                          })
+                        "
+                        title="Remove"
+                        class="icon"
+                      >
+                        <app-svg-icon
+                          [path]="'assets/trash.svg'"
+                        ></app-svg-icon>
+                      </button>
+                    }
+                  </div>
+
+                  <h3 class="feature--description">
+                    {{ feature.controls.description.value }}
+                  </h3>
+                  <p class="feature-large-description">
+                    {{ feature.controls.largeDescription.value }}
+                  </p>
+                </div>
+              }
+            </li>
+          } @empty {
+            <li>No feature to show</li>
+          }
+        </ul>
+      </ng-container>
+    </fieldset>
+  </form>
+</div>

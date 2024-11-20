@@ -1,0 +1,37 @@
+<section>
+  @if (project(); as project) {
+    <div class="d-flex-row d-flex-gap-1 d-flex-justify-content-space-between">
+      <h2>Project Details</h2>
+      <button type="button" (click)="onDraftPrint()">Print</button>
+    </div>
+    <div>
+      <p><strong>Company</strong> {{ project.company }}</p>
+      <p><strong>Project</strong> {{ project.projectName }}</p>
+      <p><strong>Description</strong> {{ project.description }}</p>
+      <p>
+        <strong>Price by hour</strong>
+        {{ project.priceByHour | currency: "USD" : true : "1.2-2" }}
+      </p>
+      <p><strong>Total Hours</strong> {{ totalHours() }}</p>
+      <p>
+        <strong>Total Project</strong>
+        {{
+          totalHours() * project.priceByHour | currency: "USD" : true : "1.2-2"
+        }}
+      </p>
+    </div>
+    <h2>Features</h2>
+    <ul>
+      @for (feature of project.features; track feature) {
+        @if (feature.selected) {
+          <li>
+            <h3>{{ feature.description }}</h3>
+            <p>{{ feature.largeDescription }}</p>
+          </li>
+        }
+      }
+    </ul>
+  } @else {
+    <p>Loading ...</p>
+  }
+</section>

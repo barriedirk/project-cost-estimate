@@ -1,1 +1,51 @@
-/* You can add global styles to this file, and also import other style files */
+// @import "./sass/base/mixins";
+// @import "./sass/base/base";
+@import "base/mixins";
+@import "base/reset";
+@import "base/base";
+@import "base/utils";
+
+:root {
+  --fs-red: hsl(11, 68%, 55%);
+}
+
+@media print {
+  app-root > * {
+    display: none;
+  }
+  app-root app-print-layout {
+    display: block;
+  }
+}
+
+button {
+  padding: 1rem 1rem;
+  border-radius: 5px;
+  border: none;
+  background-color: var(--clr-background);
+  color: var(--clr-background-text);
+  display: flex;
+  gap: 0.1rem;
+  align-items: center;
+  font-size: 1.3rem;
+
+  cursor: pointer;
+
+  app-svg-icon {
+    background: var(--clr-background-text);
+  }
+
+  &.icon {
+    background-color: transparent;
+
+    app-svg-icon {
+      background: var(--clr-background);
+    }
+  }
+}
+
+dialog {
+  border-radius: 1rem;
+  border: none;
+  box-shadow: 0.5rem 0.5rem 1rem rgb(20 20 20 / 30%);
+}

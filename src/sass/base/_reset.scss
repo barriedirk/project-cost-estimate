@@ -1,0 +1,72 @@
+:root {
+  --fs-base: 62.5%; // 1 rem = 10px; 10/16=62.5%
+  --fs-tab-land: 56.25%; // 1 rem = 9px, 9/16 = 56.25%
+  --fs-tab-port: 50%; // 1 rem = 8px, 8/16 = 50%
+  --fs-big-port: 75%; // 1 rem = 12, 12/16
+
+  --body-max-width: 75ch;
+}
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+* {
+  min-width: 0;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+html {
+  // This defines what 1rem is
+  font-size: var(--fs-base);
+
+  // @include respond(tab-land) {
+  //   font-size: var(--tab-land);
+  // }
+
+  // @include respond(tab-port) {
+  //   font-size: var(--fs-tab-port);
+  // }
+
+  // @include respond(big-desktop) {
+  //   font-size: var(--fs-big-port);
+  // }
+}
+
+body {
+  min-height: 100dvh;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-wrap: balance;
+}
+
+p {
+  max-width: var(--body-max-width);
+  text-wrap: pretty;
+}
+
+ul[role="list"],
+ol[role="list"] {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}

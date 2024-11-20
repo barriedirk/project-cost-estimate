@@ -19,10 +19,18 @@
     "importHelpers": true,
     "target": "ES2022",
     "module": "ES2022",
-    "lib": [
-      "ES2022",
-      "dom"
-    ]
+    "lib": ["ES2022", "dom"],
+    "baseUrl": "./",
+    "paths": {
+      "@app/*": ["src/app/*"],
+      "@store": ["src/app/store/index.ts"],
+      "@components/*": ["src/app/components/*"],
+      "@interfaces": ["src/app/interfaces/index.ts"],
+      "@constants": ["src/app/common/constants/index.ts"],
+      "@decorators": ["src/app/common/decorators/index.ts"],
+      "@directives": ["src/app/common/directives/index.ts"],
+      "@services/*": ["src/app/services/*"]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

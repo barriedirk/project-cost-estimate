@@ -1,0 +1,41 @@
+:root {
+  --clr-primary: #fff;
+  --clr-secundary: #d0a468;
+  --clr-secundary-light: #ecdbc3;
+
+  --clr-background: #A04747;
+  --clr-background-text: #EEDF7A;
+
+  --clr-white: #fff;
+
+  --clr-text: #343131;
+}
+
+
+label,
+p,
+input,
+textarea {
+  font-size: 1.6rem;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+label {
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+input[type="text"],
+textarea {
+  margin-top: 0.2rem;
+  padding: 0.4rem;
+}
+
+h1 { font-size: 2.98rem;}
+h2 { font-size: 2.48rem;}
+h3 { font-size: 2.07rem;}
+h4 { font-size: 1.72rem;}

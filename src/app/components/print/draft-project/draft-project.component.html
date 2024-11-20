@@ -1,0 +1,31 @@
+<div class="draft">
+  @if (storeProject(); as project) {
+    <div>
+      <p><strong>Company</strong> {{ project.company }}</p>
+      <p><strong>Project</strong> {{ project.projectName }}</p>
+      <p><strong>Description</strong> {{ project.description }}</p>
+      <p>
+        <strong>Price by hour</strong>
+        {{ project.priceByHour | currency: "USD" : true : "1.2-2" }}
+      </p>
+      <p><strong>Total Hours</strong> {{ totalHours() }}</p>
+      <p>
+        <strong>Total Project</strong>
+        {{
+          totalHours() * project.priceByHour | currency: "USD" : true : "1.2-2"
+        }}
+      </p>
+    </div>
+    <h2>Features</h2>
+    <ul>
+      @for (feature of project.features; track feature) {
+        @if (feature.selected) {
+          <li>
+            <h3>{{ feature.description }}</h3>
+            <p>{{ feature.largeDescription }}</p>
+          </li>
+        }
+      }
+    </ul>
+  }
+</div>
